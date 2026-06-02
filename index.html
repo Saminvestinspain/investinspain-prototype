@@ -164,7 +164,7 @@
     /* Cloudinary hero foto */
     .hero-photo {
       position: absolute; inset: 0;
-      background-image: url('https://res.cloudinary.com/dvm1g1ehh/image/upload/w_1920,q_auto,f_auto/v1780401526/DJI_0232-HDR-Pano_aj7dsx.jpg');
+      background-image: url('https://res.cloudinary.com/dvm1g1ehh/image/upload/v1780401526/DJI_0232-HDR-Pano_aj7dsx.jpg');
       background-size: cover;
       background-position: center 40%;
       background-repeat: no-repeat;
@@ -176,10 +176,10 @@
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
-        160deg,
-        rgba(2,51,68,.75) 0%,
-        rgba(10,10,10,.5) 50%,
-        rgba(10,10,10,.7) 100%
+        to bottom,
+        rgba(2,51,68,.55) 0%,
+        rgba(10,10,10,.35) 40%,
+        rgba(10,10,10,.65) 100%
       );
     }
     /* Noise texture */
@@ -318,15 +318,23 @@
      HERO
 ══════════════════════════════════════════════════ -->
 <section id="hero">
+  <!-- Hero foto via Cloudinary -->
   <div class="hero-photo" id="heroBg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-noise"></div>
+  <img
+    src="https://res.cloudinary.com/dvm1g1ehh/image/upload/v1780401526/DJI_0232-HDR-Pano_aj7dsx.jpg"
+    alt=""
+    aria-hidden="true"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;z-index:0;"
+    id="heroImg"
+  />
+  <div class="hero-overlay" style="z-index:1;"></div>
+  <div class="hero-noise" style="z-index:2;"></div>
   <div class="hero-num">713</div>
 
   <!-- Thin vertical line -->
   <div class="absolute left-8 lg:left-16 top-0 bottom-0 w-px hidden lg:block" style="background:rgba(202,193,178,.12);"></div>
 
-  <div class="relative z-10 max-w-screen-xl mx-auto px-8 lg:px-16 flex flex-col justify-end min-h-screen pb-16 lg:pb-24">
+  <div class="relative max-w-screen-xl mx-auto px-8 lg:px-16 flex flex-col justify-end min-h-screen pb-16 lg:pb-24" style="z-index:10;">
 
     <!-- Top meta -->
     <div class="flex items-center gap-4 mb-10" style="animation: fadeUp .8s .2s both; opacity:0; @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}">
