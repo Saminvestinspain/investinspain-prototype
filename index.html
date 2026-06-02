@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvestInSpain — Luxury Real Estate Costa del Sol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Cinzel', 'serif'],
+            body: ['Josefin Sans', 'sans-serif'],
+          },
+          colors: {
+            navy:    '#023344',
+            'navy-2':'#034558',
+            'navy-3':'#04596e',
+            sand:    '#CAC1B2',
+            'sand-l':'#DDD7CE',
+            'sand-d':'#B0A696',
+            cream:   '#FAFAF8',
+            'off-white': '#F5F3F0',
+            white:   '#FFFFFF',
+            muted:   '#7A7065',
+            dark:    '#0D1F26',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #FFFFFF; color: #111827; font-family: 'Josefin Sans', sans-serif; overflow-x: hidden; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+    @keyframes shimmer  { 0%{background-position:-200% center;} 100%{background-position:200% center;} }
+    @keyframes float    { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    @keyframes bounceDot{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+    @keyframes linePulse{ 0%,100%{opacity:.4;transform:scaleX(1);} 50%{opacity:1;transform:scaleX(1.15);} }
+
+    /* Reveal on scroll */
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* Sand shimmer text */
+    .gold-text {
+      background: linear-gradient(90deg,#023344 0%,#034558 30%,#CAC1B2 55%,#034558 75%,#023344 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 5s linear infinite;
+    }
+
+    /* Animated underline */
+    .underline-gold {
+      position: relative;
+      display: inline-block;
+    }
+    .underline-gold::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg,#CAC1B2,#B0A696);
+      animation: linePulse 3s ease-in-out infinite;
+    }
+
+    /* Nav */
+    .nav-glass {
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(2,51,68,0.08);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: #023344;
+      color: #FFFFFF;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .75rem;
+      transition: all .25s ease;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-primary:hover {
+      background: #034558;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(2,51,68,0.25);
+    }
+    .btn-outline {
+      border: 1.5px solid #023344;
+      color: #023344;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .75rem;
+      transition: all .25s ease;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-outline:hover {
+      background: #023344;
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(2,51,68,0.15);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg,#CAC1B2,#B0A696);
+      color: #fff;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .75rem;
+      transition: all .25s ease;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg,#B0A696,#EDE8E1);
+      color: #023344;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(202,193,178,0.3);
+    }
+
+    /* Property card */
+    .prop-card {
+      background: #fff;
+      border: 1px solid rgba(2,51,68,0.08);
+      transition: box-shadow .3s ease, transform .3s ease;
+      cursor: pointer;
+    }
+    .prop-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(2,51,68,0.12);
+    }
+    .prop-card:hover .prop-img { transform: scale(1.05); }
+    .prop-img { transition: transform .5s ease; }
+
+    /* Divider */
+    .divider-gold { width:48px; height:2px; background:linear-gradient(90deg,#CAC1B2,#B0A696); }
+
+    /* Tag chip */
+    .chip {
+      display:inline-flex; align-items:center; gap:6px;
+      border:1px solid rgba(2,51,68,0.15);
+      background: rgba(2,51,68,0.04);
+      color: #023344;
+      font-family:'Josefin Sans',sans-serif;
+      font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+      padding: 5px 12px;
+    }
+
+    /* Stat card */
+    .stat-box {
+      background:#fff;
+      border:1px solid rgba(2,51,68,0.1);
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .stat-box:hover {
+      border-color: rgba(2,51,68,0.3);
+      box-shadow: 0 8px 30px rgba(2,51,68,0.08);
+    }
+
+    /* Form */
+    .form-input {
+      width:100%;
+      background:#F4F4F0;
+      border:1px solid rgba(2,51,68,0.12);
+      padding: 12px 16px;
+      font-family:'Josefin Sans',sans-serif;
+      font-size:.85rem;
+      color:#111827;
+      transition: border-color .2s;
+      outline:none;
+    }
+    .form-input:focus { border-color:#023344; background:#fff; }
+    .form-label {
+      font-family:'Josefin Sans',sans-serif;
+      font-size:.65rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#6B7280;
+      display:block;
+      margin-bottom:6px;
+    }
+
+    /* Testimonial */
+    .testi-card {
+      background:#fff;
+      border:1px solid rgba(2,51,68,0.08);
+      transition: box-shadow .3s, border-color .3s;
+    }
+    .testi-card:hover {
+      box-shadow: 0 12px 40px rgba(2,51,68,0.1);
+      border-color: rgba(2,51,68,0.2);
+    }
+
+    /* Hero decorative */
+    .hero-line { width:1px; background:linear-gradient(to bottom,transparent,rgba(2,51,68,0.3),transparent); }
+
+    /* Scroll indicator */
+    .scroll-dot { animation: bounceDot 1.6s ease-in-out infinite; }
+
+    /* Float badge */
+    .float { animation: float 4s ease-in-out infinite; }
+
+    /* Steps */
+    .step-num {
+      width:44px; height:44px; flex-shrink:0;
+      border:1.5px solid #023344;
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#F4F4F0; }
+    ::-webkit-scrollbar-thumb { background:#023344; }
+
+    /* Progress bar */
+    #progressBar { height:2px; background:linear-gradient(90deg,#023344,#CAC1B2); transition:width .2s; }
+
+    /* Filter button active */
+    .filter-btn { transition:all .2s; cursor:pointer; }
+    .filter-btn.active { background:#023344; color:#FAFAF8; border-color:#023344; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progressBar" class="fixed top-0 left-0 z-50" style="width:0%"></div>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-40">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between h-20">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 cursor-pointer">
+        <div class="w-9 h-9">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 3L3 14V33H13V22H23V33H33V14L18 3Z" fill="#023344"/>
+            <path d="M18 3L33 14" stroke="#CAC1B2" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M18 3L3 14" stroke="#CAC1B2" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="14" y="22" width="8" height="11" fill="#034558"/>
+          </svg>
+        </div>
+        <div class="flex flex-col leading-none">
+          <span class="font-heading text-navy font-semibold tracking-widest text-sm">INVEST<span style="color:#CAC1B2">IN</span>SPAIN</span>
+          <span class="font-body text-muted text-xs tracking-wider mt-0.5">Costa del Sol</span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="#properties" class="font-body text-xs tracking-widest uppercase text-muted hover:text-navy transition-colors duration-200 cursor-pointer">Projecten</a>
+        <a href="#services" class="font-body text-xs tracking-widest uppercase text-muted hover:text-navy transition-colors duration-200 cursor-pointer">Services</a>
+        <a href="#inspectiereis" class="font-body text-xs tracking-widest uppercase text-muted hover:text-navy transition-colors duration-200 cursor-pointer">Inspectiereis</a>
+        <a href="#about" class="font-body text-xs tracking-widest uppercase text-muted hover:text-navy transition-colors duration-200 cursor-pointer">Over ons</a>
+        <a href="#contact" class="font-body text-xs tracking-widest uppercase text-muted hover:text-navy transition-colors duration-200 cursor-pointer">Contact</a>
+      </div>
+
+      <!-- CTA -->
+      <div class="hidden lg:flex items-center gap-5">
+        <a href="tel:+3215257310" class="flex items-center gap-2 text-navy cursor-pointer hover:opacity-70 transition-opacity">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span class="font-body text-xs tracking-wider font-medium">+32 15 25 73 10</span>
+        </a>
+        <a href="#inspectiereis" class="btn-primary px-6 py-3">Inspectiereis</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="menuBtn" class="lg:hidden p-2 cursor-pointer" aria-label="Menu openen">
+        <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="hidden lg:hidden border-t border-navy/10 bg-cream">
+    <div class="px-6 py-6 flex flex-col gap-5">
+      <a href="#properties" class="font-body text-sm tracking-widest uppercase text-muted hover:text-navy transition-colors cursor-pointer">Projecten</a>
+      <a href="#services" class="font-body text-sm tracking-widest uppercase text-muted hover:text-navy transition-colors cursor-pointer">Services</a>
+      <a href="#inspectiereis" class="font-body text-sm tracking-widest uppercase text-muted hover:text-navy transition-colors cursor-pointer">Inspectiereis</a>
+      <a href="#about" class="font-body text-sm tracking-widest uppercase text-muted hover:text-navy transition-colors cursor-pointer">Over ons</a>
+      <a href="#contact" class="font-body text-sm tracking-widest uppercase text-muted hover:text-navy transition-colors cursor-pointer">Contact</a>
+      <a href="#inspectiereis" class="btn-primary px-6 py-3 mt-2">Plan Inspectiereis</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center overflow-hidden pt-20">
+
+  <!-- Background split: left cream / right navy pattern -->
+  <div class="absolute inset-0 flex">
+    <div class="w-full lg:w-1/2 bg-cream"></div>
+    <div class="hidden lg:block w-1/2" style="background:linear-gradient(135deg,#023344 0%,#034558 60%,#04596e 100%);">
+      <!-- Subtle grid pattern -->
+      <div class="w-full h-full opacity-10" style="background-image:linear-gradient(rgba(255,255,255,0.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.4) 1px,transparent 1px);background-size:50px 50px;"></div>
+    </div>
+  </div>
+
+  <!-- Decorative vertical lines -->
+  <div class="hero-line absolute left-1/2 top-0 bottom-0 hidden lg:block opacity-30"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 w-full">
+    <div class="grid lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-80px)] py-16">
+
+      <!-- Left: Text -->
+      <div>
+        <!-- Eyebrow -->
+        <div class="animate-fade-up flex items-center gap-3 mb-8" style="animation:fadeUp .7s ease forwards; opacity:0;">
+          <div class="divider-gold"></div>
+          <span class="font-body text-xs tracking-widest uppercase text-sand font-medium">Costa del Sol · Marbella · Estepona</span>
+        </div>
+
+        <!-- H1 -->
+        <h1 class="font-heading mb-6" style="font-size:clamp(2.4rem,5.5vw,4.5rem);line-height:1.08;letter-spacing:-0.02em;font-weight:700;animation:fadeUp .8s .1s ease forwards;opacity:0;">
+          Uw Droomvilla<br/>
+          <span class="underline-gold gold-text">In Spanje</span>
+        </h1>
+
+        <!-- Sub -->
+        <p class="font-body text-muted text-lg leading-relaxed mb-10 max-w-lg" style="animation:fadeUp .8s .2s ease forwards;opacity:0;">
+          Wij vinden, begeleiden en realiseren uw vastgoedinvestering aan de Costa del Sol. Persoonlijk. Vertrouwd. Premium.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-12" style="animation:fadeUp .8s .3s ease forwards;opacity:0;">
+          <a href="#inspectiereis" class="btn-primary px-8 py-4">Plan uw inspectiereis</a>
+          <a href="#properties" class="btn-outline px-8 py-4">Bekijk projecten</a>
+        </div>
+
+        <!-- Trust row -->
+        <div class="flex flex-wrap items-center gap-6" style="animation:fadeUp .8s .4s ease forwards;opacity:0;">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sand flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <span class="font-body text-xs text-muted tracking-wider">BIV Gecertificeerd</span>
+          </div>
+          <div class="w-px h-4 bg-gray-200"></div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span class="font-body text-xs text-muted tracking-wider">AXA Verzekerd</span>
+          </div>
+          <div class="w-px h-4 bg-gray-200"></div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="font-body text-xs text-muted tracking-wider">500+ Kopers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual panel (navy bg) -->
+      <div class="hidden lg:flex flex-col items-center justify-center h-full gap-8 relative" style="min-height:500px;">
+
+        <!-- Big number stat -->
+        <div class="float text-center">
+          <div class="font-heading text-cream font-bold" style="font-size:5rem;line-height:1;color:rgba(250,250,248,0.12);">713</div>
+          <div class="font-heading text-cream font-semibold text-xl tracking-wider mt-2" style="color:rgba(250,250,248,0.9);">Woningen</div>
+          <div class="font-body text-xs tracking-widest uppercase mt-1" style="color:rgba(250,250,248,0.5);">Beschikbaar</div>
+        </div>
+
+        <!-- 3 mini cards -->
+        <div class="flex flex-col gap-3 w-full max-w-xs">
+          <div class="flex items-center justify-between bg-white/10 backdrop-blur px-5 py-3 border border-white/10">
+            <div>
+              <div class="font-heading text-cream text-sm font-semibold">Marbella Hills</div>
+              <div class="font-body text-xs mt-0.5" style="color:rgba(250,250,248,0.55);">Duplex · 3 slpk</div>
+            </div>
+            <div class="font-heading text-sm font-bold" style="color:#B0A696;">€ 995K</div>
+          </div>
+          <div class="flex items-center justify-between bg-white/10 backdrop-blur px-5 py-3 border border-white/10">
+            <div>
+              <div class="font-heading text-cream text-sm font-semibold">Solenne</div>
+              <div class="font-body text-xs mt-0.5" style="color:rgba(250,250,248,0.55);">Appartement · 2 slpk</div>
+            </div>
+            <div class="font-heading text-sm font-bold" style="color:#B0A696;">€ 990K</div>
+          </div>
+          <div class="flex items-center justify-between bg-white/10 backdrop-blur px-5 py-3 border border-white/10">
+            <div>
+              <div class="font-heading text-cream text-sm font-semibold">Azahar Estepona</div>
+              <div class="font-body text-xs mt-0.5" style="color:rgba(250,250,248,0.55);">Penthouse · 3 slpk</div>
+            </div>
+            <div class="font-heading text-sm font-bold" style="color:#B0A696;">€ 625K</div>
+          </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-0 flex flex-col items-center gap-2">
+          <div class="hero-line h-12" style="background:rgba(255,255,255,0.2);"></div>
+          <div class="scroll-dot w-1.5 h-1.5 rounded-full bg-gold-l"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     STATS BAR
+════════════════════════════════════════ -->
+<section class="bg-navy py-14">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
+      <div class="bg-navy px-8 py-10 text-center reveal">
+        <div class="font-heading text-cream font-bold" style="font-size:2.8rem;">500<span style="color:#B0A696">+</span></div>
+        <div class="divider-gold mx-auto my-3"></div>
+        <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.55);">Woningen Verkocht</div>
+      </div>
+      <div class="bg-navy px-8 py-10 text-center reveal" style="transition-delay:.08s">
+        <div class="font-heading text-cream font-bold" style="font-size:2.8rem;">13<span style="color:#B0A696">+</span></div>
+        <div class="divider-gold mx-auto my-3"></div>
+        <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.55);">Jaar Ervaring</div>
+      </div>
+      <div class="bg-navy px-8 py-10 text-center reveal" style="transition-delay:.16s">
+        <div class="font-heading text-cream font-bold" style="font-size:2.8rem;">713<span style="color:#B0A696">+</span></div>
+        <div class="divider-gold mx-auto my-3"></div>
+        <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.55);">Beschikbare Woningen</div>
+      </div>
+      <div class="bg-navy px-8 py-10 text-center reveal" style="transition-delay:.24s">
+        <div class="font-heading text-cream font-bold" style="font-size:2.8rem;">13<span style="color:#B0A696">+</span></div>
+        <div class="divider-gold mx-auto my-3"></div>
+        <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.55);">Talen Gesproken</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     PROPERTIES
+════════════════════════════════════════ -->
+<section id="properties" class="py-24 lg:py-32 bg-cream">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <!-- Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-14 reveal">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="divider-gold"></div>
+          <span class="font-body text-xs tracking-widest uppercase text-sand font-medium">Uitgelichte Projecten</span>
+        </div>
+        <h2 class="font-heading text-navy font-bold" style="font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-0.02em;">
+          Exclusieve <span class="gold-text">Projecten</span>
+        </h2>
+      </div>
+      <a href="#" class="btn-outline px-6 py-3 mt-6 lg:mt-0">Alle Projecten</a>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="flex flex-wrap gap-2 mb-10 reveal">
+      <button class="filter-btn chip active px-5 py-2 text-xs">Alle (713)</button>
+      <button class="filter-btn chip px-5 py-2 text-xs">Penthouses (234)</button>
+      <button class="filter-btn chip px-5 py-2 text-xs">Appartementen (295)</button>
+      <button class="filter-btn chip px-5 py-2 text-xs">Villa's (139)</button>
+      <button class="filter-btn chip px-5 py-2 text-xs">Townhouses (45)</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 — featured -->
+      <div class="prop-card md:col-span-2 lg:col-span-1 reveal" style="transition-delay:.05s">
+        <div class="overflow-hidden" style="height:280px;background:linear-gradient(135deg,#023344,#034558);">
+          <div class="prop-img w-full h-full relative flex items-center justify-center" style="background:linear-gradient(135deg,#023344 0%,#04596e 100%);">
+            <div class="absolute inset-0" style="background:radial-gradient(ellipse at 70% 30%,rgba(202,193,178,0.18),transparent 60%);"></div>
+            <div class="absolute top-4 left-4">
+              <span class="chip text-xs" style="background:rgba(2,51,68,0.9);color:#B0A696;border-color:rgba(176,166,150,0.4);">Nieuw project</span>
+            </div>
+            <!-- Placeholder visual -->
+            <div class="text-center z-10 opacity-60">
+              <svg class="w-16 h-16 mx-auto mb-2" fill="none" stroke="rgba(250,250,248,0.4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.35);">Marbella Hills</div>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <h3 class="font-heading text-navy text-lg font-semibold">Marbella Club Hills</h3>
+              <p class="font-body text-muted text-xs tracking-wider mt-1 uppercase">Marbella · Duplex · 3 slaapkamers</p>
+            </div>
+            <div class="text-right">
+              <div class="font-heading text-navy font-bold text-lg">€ 995.000</div>
+            </div>
+          </div>
+          <div class="divider-gold my-4"></div>
+          <div class="flex items-center justify-between">
+            <div class="flex gap-4 text-muted text-xs font-body">
+              <span class="flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                280 m²
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Terras · Pool
+              </span>
+            </div>
+            <button class="flex items-center gap-1 text-navy text-xs font-body tracking-wider uppercase font-semibold hover:text-sand transition-colors cursor-pointer">
+              Details
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="prop-card reveal" style="transition-delay:.12s">
+        <div class="overflow-hidden" style="height:200px;background:linear-gradient(160deg,#034558,#023344);">
+          <div class="prop-img w-full h-full flex items-center justify-center" style="background:linear-gradient(160deg,#04596e,#034558);">
+            <div class="absolute inset-0 opacity-20" style="background:radial-gradient(ellipse at 30% 70%,#CAC1B2,transparent 60%);"></div>
+            <svg class="w-12 h-12 opacity-25" fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-heading text-navy text-base font-semibold">Solenne</h3>
+          <p class="font-body text-muted text-xs tracking-wider mt-1 mb-4 uppercase">Estepona · Appartement</p>
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-navy font-bold">Vanaf € 990.000</div>
+            <button class="flex items-center gap-1 text-navy text-xs font-body tracking-wider uppercase font-semibold hover:text-sand transition-colors cursor-pointer">
+              Details <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="prop-card reveal" style="transition-delay:.2s">
+        <div class="overflow-hidden" style="height:200px;">
+          <div class="prop-img w-full h-full flex items-center justify-center" style="background:linear-gradient(200deg,#023344,#034558);">
+            <svg class="w-12 h-12 opacity-25" fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-heading text-navy text-base font-semibold">Azahar de Estepona</h3>
+          <p class="font-body text-muted text-xs tracking-wider mt-1 mb-4 uppercase">Estepona · Penthouse</p>
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-navy font-bold">€ 625.000</div>
+            <button class="flex items-center gap-1 text-navy text-xs font-body tracking-wider uppercase font-semibold hover:text-sand transition-colors cursor-pointer">
+              Details <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="prop-card reveal" style="transition-delay:.28s">
+        <div class="overflow-hidden" style="height:200px;">
+          <div class="prop-img w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#04596e,#023344);">
+            <svg class="w-12 h-12 opacity-25" fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-heading text-navy text-base font-semibold">Capri</h3>
+          <p class="font-body text-muted text-xs tracking-wider mt-1 mb-4 uppercase">Marbella · Villa</p>
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-navy font-bold">€ 490.000</div>
+            <button class="flex items-center gap-1 text-navy text-xs font-body tracking-wider uppercase font-semibold hover:text-sand transition-colors cursor-pointer">
+              Details <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="prop-card reveal" style="transition-delay:.36s">
+        <div class="overflow-hidden" style="height:200px;">
+          <div class="prop-img w-full h-full flex items-center justify-center" style="background:linear-gradient(160deg,#023344,#04596e);">
+            <svg class="w-12 h-12 opacity-25" fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-heading text-navy text-base font-semibold">Oceana Gardens</h3>
+          <p class="font-body text-muted text-xs tracking-wider mt-1 mb-4 uppercase">Estepona · Appartement</p>
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-navy font-bold">€ 485.000</div>
+            <button class="flex items-center gap-1 text-navy text-xs font-body tracking-wider uppercase font-semibold hover:text-sand transition-colors cursor-pointer">
+              Details <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     INSPECTIEREIS
+════════════════════════════════════════ -->
+<section id="inspectiereis" class="py-24 lg:py-32 bg-off-white border-t border-navy/6">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Left -->
+      <div class="reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="divider-gold"></div>
+          <span class="font-body text-xs tracking-widest uppercase text-sand font-medium">Onze Unieke Aanpak</span>
+        </div>
+        <h2 class="font-heading text-navy font-bold mb-6" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;">
+          De <span class="gold-text">Inspectiereis</span>
+        </h2>
+        <p class="font-body text-muted text-lg leading-relaxed mb-10">
+          Wij geloven dat u uw droomwoning moet <span class="text-navy font-medium">beleven</span> voor u koopt. Daarom organiseren wij een persoonlijke inspectiereis naar de Costa del Sol — en we vergoeden uw reiskosten bij aankoop.
+        </p>
+
+        <!-- Steps -->
+        <div class="flex flex-col gap-8 mb-12">
+          <div class="flex gap-6 items-start">
+            <div class="step-num flex-shrink-0">
+              <span class="font-heading text-navy font-bold text-sm">01</span>
+            </div>
+            <div>
+              <h4 class="font-heading text-navy font-semibold mb-2">Gratis Intakegesprek</h4>
+              <p class="font-body text-muted text-sm leading-relaxed">We bespreken uw wensen, budget en doelstellingen. Persoonlijk, zonder verplichtingen.</p>
+            </div>
+          </div>
+          <div class="flex gap-6 items-start">
+            <div class="step-num flex-shrink-0">
+              <span class="font-heading text-navy font-bold text-sm">02</span>
+            </div>
+            <div>
+              <h4 class="font-heading text-navy font-semibold mb-2">Persoonlijke Selectie op Maat</h4>
+              <p class="font-body text-muted text-sm leading-relaxed">Wij selecteren de beste projecten die perfect aansluiten bij uw profiel en budget.</p>
+            </div>
+          </div>
+          <div class="flex gap-6 items-start">
+            <div class="step-num flex-shrink-0">
+              <span class="font-heading text-navy font-bold text-sm">03</span>
+            </div>
+            <div>
+              <h4 class="font-heading text-navy font-semibold mb-2">Inspectiereis Ter Plaatse</h4>
+              <p class="font-body text-muted text-sm leading-relaxed">Bezoek de projecten, voel de sfeer, ontmoet ons team in Spanje. Reiskosten worden vergoed bij aankoop.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary px-8 py-4">Plan Uw Gratis Gesprek</a>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="bg-white border border-navy/10 p-8 lg:p-10" style="box-shadow:0 4px 40px rgba(2,51,68,0.08);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="divider-gold"></div>
+            <span class="font-body text-xs tracking-widest uppercase text-sand">Aanvraag</span>
+          </div>
+          <h3 class="font-heading text-navy text-2xl font-semibold mb-2">Plan Uw Inspectiereis</h3>
+          <p class="font-body text-muted text-sm mb-8">We contacteren u binnen 24 uur persoonlijk terug.</p>
+
+          <form class="flex flex-col gap-5">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="form-label" for="fn">Voornaam</label>
+                <input id="fn" type="text" placeholder="Jan" class="form-input" />
+              </div>
+              <div>
+                <label class="form-label" for="ln">Naam</label>
+                <input id="ln" type="text" placeholder="Janssen" class="form-input" />
+              </div>
+            </div>
+            <div>
+              <label class="form-label" for="em">E-mailadres</label>
+              <input id="em" type="email" placeholder="jan@voorbeeld.be" class="form-input" />
+            </div>
+            <div>
+              <label class="form-label" for="tel">Telefoonnummer</label>
+              <input id="tel" type="tel" placeholder="+32 ..." class="form-input" />
+            </div>
+            <div>
+              <label class="form-label" for="bud">Budget</label>
+              <select id="bud" class="form-input cursor-pointer">
+                <option value="">Selecteer budget</option>
+                <option>€ 300.000 – € 500.000</option>
+                <option>€ 500.000 – € 750.000</option>
+                <option>€ 750.000 – € 1.000.000</option>
+                <option>€ 1.000.000+</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" for="tim">Wanneer wilt u kopen?</label>
+              <select id="tim" class="form-input cursor-pointer">
+                <option value="">Selecteer timing</option>
+                <option>Binnen 3 maanden</option>
+                <option>Binnen 6 maanden</option>
+                <option>Binnen 1 jaar</option>
+                <option>Nog oriënterend</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary w-full py-4 mt-1">Verstuur Aanvraag</button>
+            <p class="font-body text-xs text-muted text-center">Geen spam. Geen verplichtingen. 100% gratis advies.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════ -->
+<section id="testimonials" class="py-24 lg:py-32 bg-cream">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="text-center mb-16 reveal">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="divider-gold"></div>
+        <span class="font-body text-xs tracking-widest uppercase text-sand font-medium">Klantervaringen</span>
+        <div class="divider-gold"></div>
+      </div>
+      <h2 class="font-heading text-navy font-bold" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;">
+        Wat Onze <span class="gold-text">Kopers</span> Zeggen
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- T1 -->
+      <div class="testi-card p-8 reveal" style="transition-delay:.05s">
+        <div class="flex gap-0.5 mb-5">
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="font-body text-muted text-sm leading-relaxed mb-6">"Sofie en Gunther hebben ons van A tot Z begeleid. De inspectiereis was een geweldige ervaring — we kochten ons appartement in Estepona en zijn er tot op vandaag dolgelukkig mee."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center flex-shrink-0">
+            <span class="font-heading text-cream font-bold text-xs">LV</span>
+          </div>
+          <div>
+            <div class="font-heading text-navy text-sm font-semibold">Lore & Wim V.</div>
+            <div class="font-body text-muted text-xs tracking-wider mt-0.5">Antwerpen · Estepona</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T2 -->
+      <div class="testi-card p-8 reveal border-navy/20" style="transition-delay:.12s">
+        <div class="flex gap-0.5 mb-5">
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="font-body text-muted text-sm leading-relaxed mb-6">"Professioneel, betrouwbaar en écht persoonlijk. Ze spreken onze taal — letterlijk en figuurlijk. We zijn nu eigenaar van een prachtige villa in Marbella."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center flex-shrink-0">
+            <span class="font-heading text-cream font-bold text-xs">MD</span>
+          </div>
+          <div>
+            <div class="font-heading text-navy text-sm font-semibold">Marc & Diane D.</div>
+            <div class="font-body text-muted text-xs tracking-wider mt-0.5">Gent · Marbella Villa</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T3 -->
+      <div class="testi-card p-8 reveal" style="transition-delay:.2s">
+        <div class="flex gap-0.5 mb-5">
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" fill="#023344" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="font-body text-muted text-sm leading-relaxed mb-6">"De beste investering die we ooit gedaan hebben — zowel het vastgoed als de keuze voor InvestInSpain. Geen stress, geen verrassingen. Alles verliep vlekkeloos."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center flex-shrink-0">
+            <span class="font-heading text-cream font-bold text-xs">PK</span>
+          </div>
+          <div>
+            <div class="font-heading text-navy text-sm font-semibold">Peter K.</div>
+            <div class="font-body text-muted text-xs tracking-wider mt-0.5">Brussel · Penthouse Estepona</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     ABOUT
+════════════════════════════════════════ -->
+<section id="about" class="py-24 lg:py-32 bg-navy">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left: Content -->
+      <div class="reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="divider-gold"></div>
+          <span class="font-body text-xs tracking-widest uppercase font-medium" style="color:#B0A696;">Over Ons</span>
+        </div>
+        <h2 class="font-heading text-cream font-bold mb-6" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;">
+          Sofie &amp; <span class="gold-text">Gunther</span>
+        </h2>
+        <p class="font-body text-lg leading-relaxed mb-5" style="color:rgba(250,250,248,0.7);">
+          We zijn Sofie en Gunther — een Belgisch koppel dat zelf verliefd werd op de Costa del Sol en besloot er een thuis van te maken. Dat persoonlijke verhaal is de kern van alles wat we doen.
+        </p>
+        <p class="font-body leading-relaxed mb-10" style="color:rgba(250,250,248,0.55);">
+          We kennen elke buurt, elk project en elke notaris in de regio. Onze klanten vertrouwen ons niet alleen voor de aankoop, maar ook voor verhuur, renovatie en juridisch advies na de sleutels.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <div class="flex items-center gap-2 px-4 py-2 border" style="border-color:rgba(176,166,150,0.3);background:rgba(202,193,178,0.08);">
+            <svg class="w-4 h-4" fill="none" stroke="#B0A696" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            <span class="font-body text-xs tracking-wider uppercase" style="color:#B0A696;">BIV Gecertificeerd</span>
+          </div>
+          <div class="flex items-center gap-2 px-4 py-2 border" style="border-color:rgba(176,166,150,0.3);background:rgba(202,193,178,0.08);">
+            <svg class="w-4 h-4" fill="none" stroke="#B0A696" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span class="font-body text-xs tracking-wider uppercase" style="color:#B0A696;">AXA Verzekerd</span>
+          </div>
+          <div class="flex items-center gap-2 px-4 py-2 border" style="border-color:rgba(176,166,150,0.3);background:rgba(202,193,178,0.08);">
+            <svg class="w-4 h-4" fill="none" stroke="#B0A696" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+            <span class="font-body text-xs tracking-wider uppercase" style="color:#B0A696;">CEPI Lid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="relative">
+          <div class="border" style="border-color:rgba(250,250,248,0.08);background:rgba(255,255,255,0.04);height:400px;display:flex;align-items:center;justify-content:center;">
+            <div class="text-center">
+              <div class="font-heading font-bold mb-3" style="font-size:5rem;color:rgba(250,250,248,0.06);">S&amp;G</div>
+              <div class="font-heading text-cream font-semibold text-xl tracking-wider">Sofie &amp; Gunther</div>
+              <div class="divider-gold mx-auto my-3"></div>
+              <div class="font-body text-xs tracking-widest uppercase" style="color:rgba(250,250,248,0.4);">Founders · InvestInSpain</div>
+              <div class="font-body text-xs tracking-wider mt-2" style="color:rgba(250,250,248,0.3);">13+ jaar ervaring</div>
+            </div>
+          </div>
+          <!-- Gold accent corner -->
+          <div class="absolute -bottom-3 -right-3 w-24 h-24 border-b-2 border-r-2" style="border-color:#CAC1B2;"></div>
+          <div class="absolute -top-3 -left-3 w-24 h-24 border-t-2 border-l-2" style="border-color:#CAC1B2;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer id="contact" class="bg-cream border-t border-navy/8">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3 mb-5">
+          <svg viewBox="0 0 36 36" fill="none" class="w-9 h-9">
+            <path d="M18 3L3 14V33H13V22H23V33H33V14L18 3Z" fill="#023344"/>
+            <path d="M18 3L33 14" stroke="#CAC1B2" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M18 3L3 14" stroke="#CAC1B2" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div class="font-heading text-navy font-semibold tracking-widest text-sm">INVEST<span style="color:#CAC1B2">IN</span>SPAIN</div>
+            <div class="font-body text-muted text-xs tracking-wider mt-0.5">Costa del Sol</div>
+          </div>
+        </div>
+        <p class="font-body text-muted text-sm leading-relaxed mb-6 max-w-xs">Uw vertrouwde partner voor luxe vastgoed aan de Costa del Sol. BIV gecertificeerd. Persoonlijk. Premium.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 border border-navy/15 flex items-center justify-center text-muted hover:text-navy hover:border-navy transition-colors cursor-pointer" aria-label="Facebook">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border border-navy/15 flex items-center justify-center text-muted hover:text-navy hover:border-navy transition-colors cursor-pointer" aria-label="Instagram">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke-width="1.5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border border-navy/15 flex items-center justify-center text-muted hover:text-navy hover:border-navy transition-colors cursor-pointer" aria-label="LinkedIn">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border border-navy/15 flex items-center justify-center text-muted hover:text-navy hover:border-navy transition-colors cursor-pointer" aria-label="YouTube">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h4 class="font-heading text-navy text-xs font-semibold tracking-widest uppercase mb-5">Navigatie</h4>
+        <div class="flex flex-col gap-3">
+          <a href="#properties" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Projecten</a>
+          <a href="#services" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Services</a>
+          <a href="#inspectiereis" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Inspectiereis</a>
+          <a href="#about" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Over ons</a>
+          <a href="#testimonials" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Reviews</a>
+          <a href="#" class="font-body text-muted text-sm hover:text-navy transition-colors cursor-pointer tracking-wide">Blog</a>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="font-heading text-navy text-xs font-semibold tracking-widest uppercase mb-5">Contact</h4>
+        <div class="flex flex-col gap-4">
+          <div class="flex items-start gap-3">
+            <svg class="w-4 h-4 text-sand mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            <div>
+              <div class="font-body text-xs text-muted tracking-wider uppercase mb-1">België</div>
+              <a href="tel:+3215257310" class="font-body text-navy text-sm hover:text-sand transition-colors cursor-pointer font-medium">+32 15 25 73 10</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <a href="mailto:info@investinspain.be" class="font-body text-navy text-sm hover:text-sand transition-colors cursor-pointer">info@investinspain.be</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="font-body text-muted text-sm">België · Nederland · Spanje</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="border-t border-navy/8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="font-body text-muted text-xs tracking-wide">© 2025 InvestInSpain. Alle rechten voorbehouden.</p>
+      <div class="flex gap-6">
+        <a href="#" class="font-body text-muted text-xs hover:text-navy transition-colors cursor-pointer tracking-wide">Privacybeleid</a>
+        <a href="#" class="font-body text-muted text-xs hover:text-navy transition-colors cursor-pointer tracking-wide">Algemene Voorwaarden</a>
+        <a href="#" class="font-body text-muted text-xs hover:text-navy transition-colors cursor-pointer tracking-wide">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp -->
+<a href="https://wa.me/3215257310" target="_blank" rel="noopener noreferrer"
+   class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:scale-110 transition-transform"
+   style="background:#25D366;" aria-label="WhatsApp chat">
+  <svg class="w-7 h-7" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('progressBar').style.width = (s/h*100) + '%';
+  });
+
+  // Mobile menu
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('hidden');
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); document.getElementById('mobileMenu').classList.add('hidden'); }
+    });
+  });
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Filter tabs
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
