@@ -161,16 +161,32 @@
       position: relative;
       overflow: hidden;
     }
-    .hero-bg {
+    /* Cloudinary hero foto */
+    .hero-photo {
       position: absolute; inset: 0;
-      background: linear-gradient(160deg, #023344 0%, #0d1f26 40%, #0A0A0A 100%);
-      opacity: .9;
+      background-image: url('https://res.cloudinary.com/dvm1g1ehh/image/upload/w_1920,q_auto,f_auto,g_auto/DJI_0232-HDR-Pano_aj7dsx');
+      background-size: cover;
+      background-position: center 40%;
+      background-repeat: no-repeat;
+      transform: scale(1.03);
+      transition: transform 8s ease-out;
     }
-    /* Noise texture overlay */
+    .hero-photo.loaded { transform: scale(1); }
+    /* Donkere overlay voor leesbaarheid tekst */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(2,51,68,.75) 0%,
+        rgba(10,10,10,.5) 50%,
+        rgba(10,10,10,.7) 100%
+      );
+    }
+    /* Noise texture */
     .hero-noise {
       position: absolute; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: .4;
+      opacity: .25;
     }
     /* Decorative large number */
     .hero-num {
@@ -302,7 +318,8 @@
      HERO
 ══════════════════════════════════════════════════ -->
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-photo" id="heroBg"></div>
+  <div class="hero-overlay"></div>
   <div class="hero-noise"></div>
   <div class="hero-num">713</div>
 
@@ -813,6 +830,20 @@
   document.querySelectorAll('a,button,[data-hover]').forEach(el => {
     el.addEventListener('mouseenter', () => { cur.style.transform='translate(-50%,-50%) scale(2.5)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; ring.style.opacity='.4'; });
     el.addEventListener('mouseleave', () => { cur.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='1'; });
+  });
+
+  // Hero foto laden animatie
+  const heroBg = document.getElementById('heroBg');
+  const img = new Image();
+  img.onload = () => heroBg.classList.add('loaded');
+  img.src = 'https://res.cloudinary.com/dvm1g1ehh/image/upload/w_1920,q_auto,f_auto/DJI_0232-HDR-Pano_aj7dsx';
+
+  // Parallax op de hero foto
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    if (s < window.innerHeight) {
+      heroBg.style.transform = `scale(1) translateY(${s * 0.25}px)`;
+    }
   });
 
   // Progress + nav scroll — wit op hero, donker na scrollen
